@@ -11,7 +11,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import com.rest.resources.RestRequest;
 
@@ -28,12 +27,12 @@ public class RestClientEngine {
 			request.setEntity(new StringEntity(
 					"{\"dictionaryArray\":[{\"nameValuePairDTOArray\":[{\"name\":\"offerId\",\"value\":\"NCS006\",\"genericName\":\"offerId\"},{\"name\":\"campaignCode\",\"value\":\"LRH\",\"genericName\":\"campaignCode\"}]}]}"));
 			HttpResponse response = defaultHttpClient.execute(request);
-
+			
 //			if (response.getStatusLine().getStatusCode() != 200) {
 //				throw new RuntimeException("failed get : " + response.getStatusLine().getStatusCode());
 //			}
 			BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-
+		//	Cookie[] cookies = clidefaultHttpClient.getState().getCookies();
 			// System.out.println("Output from server ... \n");
 			while ((output = reader.readLine()) != null) {
 				stringBuffer.append(output);
@@ -56,8 +55,12 @@ public class RestClientEngine {
 		RestClientEngine restClientEngine = new RestClientEngine();
 		StringBuffer str = restClientEngine.getRequest(restRequest);
 		System.out.println(str);
-		JSONTokener jsonTokener = new JSONTokener(new String(str));
-		System.out.println(jsonTokener.next(2));
+		JSONObject jsonObject = new JSONObject(new String(str));
+		String[] arr =  JSONObject.getNames(jsonObject);
+		for(int i=0; i<arr.length ; i++){
+			System.out.println(arr[i]);
+		}
+		System.out.println(jsonObject.get("submissionId"));
 	}
 
 }
