@@ -4,12 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.json.JSONObject;
 
 import com.rest.resources.RestRequest;
@@ -17,17 +21,25 @@ import com.rest.resources.RestRequest;
 public class RestClientEngine {
 
 	private StringBuffer getRequest(RestRequest restRequest) {
+		
 		StringBuffer stringBuffer = new StringBuffer();
 		String output = new String("failed !!");
 		try {
-			HttpClient defaultHttpClient = HttpClientBuilder.create().build();
+			HttpClient client = HttpClientBuilder.create().build();
 			HttpPost request = new HttpPost(restRequest.getUrl());
 			request.addHeader("accept", "application/json");
 			request.addHeader("Content-type", "application/json");
 			request.setEntity(new StringEntity(
 					"{\"dictionaryArray\":[{\"nameValuePairDTOArray\":[{\"name\":\"offerId\",\"value\":\"NCS006\",\"genericName\":\"offerId\"},{\"name\":\"campaignCode\",\"value\":\"LRH\",\"genericName\":\"campaignCode\"}]}]}"));
-			HttpResponse response = defaultHttpClient.execute(request);
+			HttpResponse response = client.execute(request);
+			//get all headers
+			Header[] headers = response.getAllHeaders();
+			for (Header header : headers) {
+				System.out.println("Key : " + header.getName()
+				      + " ,Value : " + header.getValue());
+			}
 			
+			request.setHeaders(headers);
 //			if (response.getStatusLine().getStatusCode() != 200) {
 //				throw new RuntimeException("failed get : " + response.getStatusLine().getStatusCode());
 //			}
