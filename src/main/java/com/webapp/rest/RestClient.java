@@ -19,12 +19,13 @@ import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
 @Path("/client")
-public class RestClient {
+public class RestClient implements IRestClient {
 
 	@POST
 	@Path("/excel")
 	@Produces("application/vnd.ms-excel")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Override
 	public Response processExcel(@FormDataParam("uploadFile") InputStream fileInputStream,
             @FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition){
 		ResponseBuilder responseBuilder = null;
@@ -52,6 +53,19 @@ public class RestClient {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		return response;
+	}
+	
+	@POST
+	@Path("/testCases")
+	@Produces("application/vnd.ms-excel")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Override
+	public Response processTestCases(@FormDataParam("uploadFile") InputStream fileInputStream,
+			@FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition){
+		Response response = null;
+		
+		
 		return response;
 	}
 	

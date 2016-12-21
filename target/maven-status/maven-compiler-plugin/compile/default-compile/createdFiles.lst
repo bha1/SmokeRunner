@@ -1,3 +1,5 @@
+com\webapp\rest\IRestClient.class
+com\client\rest\ExcelSheetProcessor.class
 com\webapp\service\Test.class
 com\webapp\service\request\StringRequest.class
 com\webapp\sort\facade\HeapSort.class
