@@ -16,11 +16,11 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.json.JSONObject;
 
-import com.rest.resources.RestRequest;
+import com.rest.resources.HTTPRequestDTO;
 
 public class RestClientEngine {
 
-	private StringBuffer getRequest(RestRequest restRequest) {
+	private StringBuffer getRequest(HTTPRequestDTO restRequest) {
 		
 		StringBuffer stringBuffer = new StringBuffer();
 		String output = new String("failed !!");
@@ -62,7 +62,7 @@ public class RestClientEngine {
 	}
 
 	public static void main(String[] args) {
-		RestRequest restRequest = new RestRequest();
+		HTTPRequestDTO restRequest = new HTTPRequestDTO();
 		restRequest.setUrl("http://ofss601022:7002/digx/v1/submissions/");
 		RestClientEngine restClientEngine = new RestClientEngine();
 		StringBuffer str = restClientEngine.getRequest(restRequest);

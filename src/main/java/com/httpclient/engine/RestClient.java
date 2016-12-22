@@ -13,10 +13,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class RestClient {
 
-	public void makeHttpRequest(){
-		
-	}
-	
 	public static void main(String[] args) {
 		try{
 			HttpClient defaultHttpClient = HttpClientBuilder.create().build();

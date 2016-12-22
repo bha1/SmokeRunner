@@ -20,17 +20,19 @@ public class ExcelSheetProcessor {
 public static void main(String[] args) {
 	ExcelSheetProcessor exPr = new ExcelSheetProcessor();
 	try {
-		File tempFile = new File("D:\\workspace\\cmd_fire\\REST_API.xlsx");
+		//File tempFile = new File("D:\\workspace\\cmd_fire\\REST_API.xlsx");
 		@SuppressWarnings("resource")
 		XSSFWorkbook workBook = new XSSFWorkbook(exPr.getFile("REST_API.xlsx"));
 		XSSFSheet workSheet = workBook.getSheetAt(0);
-		
+		System.out.println(workSheet.getRow(2).getPhysicalNumberOfCells());
+		System.out.println(workSheet.getPhysicalNumberOfRows());
 		Iterator<Row> rowIterator = workSheet.iterator();
 		while(rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
 			while(cellIterator.hasNext()) {
-				System.out.print(cellIterator.next()+"->");
+				String sandBoc = cellIterator.next().toString().replaceAll("\n", "");
+				System.out.println(sandBoc+"->");
 			}
 			System.out.println("");
 		}
