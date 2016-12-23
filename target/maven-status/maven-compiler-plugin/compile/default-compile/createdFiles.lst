@@ -1,6 +1,7 @@
 com\webapp\rest\IRestClient.class
 com\smoke\dto\SmokeHTTPResponseDTO.class
 com\smoke\core\HTTPEngine.class
+com\smoke\tools\ExcelSheetTool.class
 com\smoke\dto\SmokeHttpRequestDTO.class
 com\smoke\enumeration\HTTPRequestType.class
 com\client\rest\ExcelSheetProcessor.class
@@ -11,6 +12,8 @@ com\rest\resources\RestReponse.class
 com\httpclient\engine\RestClient.class
 com\webapp\rest\HelloWorldService.class
 com\webapp\xml\HelloWorldImpl.class
+com\webapp\rest\SmokeEndPoint.class
+com\smoke\core\StreamMachine.class
 com\webapp\service\StringService.class
 com\webapp\rest\StringRestService.class
 com\rest\resources\HTTPRequestDTO.class
