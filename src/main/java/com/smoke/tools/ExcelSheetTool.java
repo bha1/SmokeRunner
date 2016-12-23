@@ -33,9 +33,8 @@ public class ExcelSheetTool {
 	            cell.setCellValue((String)obj);
 	         }
 	      }
-//		FileOutputStream out = new FileOutputStream(new File("Writesheet.xlsx"));
-//		templateWorkBook.write(out);
-//		out.close();
 		return templateWorkBook;
 	}
+	
+	public XSSFWorkbook getWorkbookFromInputStream
 }
