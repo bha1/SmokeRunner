@@ -3,7 +3,7 @@ package com.smoke.dto;
 import org.apache.http.Header;
 import org.apache.http.StatusLine;
 
-public class SmokeHTTPResponseDTO {
+public class SmokeHttpResponseDTO {
 	StatusLine statusLine;
 	
 	String response;

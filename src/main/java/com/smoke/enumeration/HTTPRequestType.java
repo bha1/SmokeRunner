@@ -1,5 +1,6 @@
 package com.smoke.enumeration;
 
+
 /**
  * this enumeration will map the http request type.
  * 
@@ -10,5 +11,24 @@ package com.smoke.enumeration;
  *
  */
 public enum HTTPRequestType {
-	GET, POST, PUT, DELETE;
+	GET("GET"), POST("POST"), PUT("PUT"), DELETE("DELETE");
+	
+	private final String value;
+	
+	private HTTPRequestType(String value) {
+		this.value = value;
+	}
+	
+	public String toString(){
+		return value;
+	}
+	
+	public static HTTPRequestType fromValue(String str){
+		for(HTTPRequestType element : HTTPRequestType.values()){
+			if(element.toString().equals(str)){
+				return element;
+			}
+		}
+		return null;
+	}
 }

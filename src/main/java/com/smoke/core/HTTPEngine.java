@@ -12,7 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import com.smoke.dto.SmokeHTTPResponseDTO;
+import com.smoke.dto.SmokeHttpResponseDTO;
 import com.smoke.dto.SmokeHttpRequestDTO;
 
 /**
@@ -27,11 +27,11 @@ public class HTTPEngine {
 	
 	private static final Logger LOGGER = Logger.getLogger(THIS_COMPONENT_NAME);
 
-	public SmokeHTTPResponseDTO httpGetRequest(SmokeHttpRequestDTO smokeHttpRequestDTO){
+	public SmokeHttpResponseDTO httpGetRequest(SmokeHttpRequestDTO smokeHttpRequestDTO){
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpGet httpGet = new HttpGet(smokeHttpRequestDTO.getUrl());
 		httpGet.addHeader("accept","application/json");
-		SmokeHTTPResponseDTO smokeHTTPResponseDTO = new SmokeHTTPResponseDTO();
+		SmokeHttpResponseDTO smokeHTTPResponseDTO = new SmokeHttpResponseDTO();
 		try {
 			HttpResponse httpResponse = httpClient.execute(httpGet);
 			if(httpResponse.getStatusLine().getStatusCode() > 199 && httpResponse.getStatusLine().getStatusCode() < 300 ){
@@ -55,11 +55,11 @@ public class HTTPEngine {
 	}
 	
 	
-	public SmokeHTTPResponseDTO httpPostRequest(SmokeHttpRequestDTO smokeHttpRequestDTO){
+	public SmokeHttpResponseDTO httpPostRequest(SmokeHttpRequestDTO smokeHttpRequestDTO){
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(smokeHttpRequestDTO.getUrl());
 		httpPost.addHeader("accept", "application/json");
-		SmokeHTTPResponseDTO smokeHTTPResponseDTO = new SmokeHTTPResponseDTO();
+		SmokeHttpResponseDTO smokeHTTPResponseDTO = new SmokeHttpResponseDTO();
 		
 		try{
 			HttpResponse httpResponse = httpClient.execute(httpPost);

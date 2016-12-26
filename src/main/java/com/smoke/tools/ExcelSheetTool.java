@@ -1,5 +1,7 @@
 package com.smoke.tools;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -36,5 +38,13 @@ public class ExcelSheetTool {
 		return templateWorkBook;
 	}
 	
-	public XSSFWorkbook getWorkbookFromInputStream
+	public XSSFWorkbook getWorkbookFromInputStream(InputStream inputStream){
+		XSSFWorkbook xssfWorkbook = null;
+		try {
+			xssfWorkbook = new XSSFWorkbook(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return xssfWorkbook;
+	}
 }
