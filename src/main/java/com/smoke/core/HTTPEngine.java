@@ -13,6 +13,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.smoke.dto.SmokeHttpResponseDTO;
+import com.smoke.dto.SmokeHttpWrapperDTO;
+import com.smoke.enumeration.HTTPRequestType;
 import com.smoke.dto.SmokeHttpRequestDTO;
 
 /**
@@ -34,7 +36,7 @@ public class HTTPEngine {
 		SmokeHttpResponseDTO smokeHTTPResponseDTO = new SmokeHttpResponseDTO();
 		try {
 			HttpResponse httpResponse = httpClient.execute(httpGet);
-			if(httpResponse.getStatusLine().getStatusCode() > 199 && httpResponse.getStatusLine().getStatusCode() < 300 ){
+			if(httpResponse.getStatusLine().getStatusCode() < 200 && httpResponse.getStatusLine().getStatusCode()  > 299 ){
 				LOGGER.log(Level.SEVERE, "get call for "+smokeHttpRequestDTO.getUrl()+" failed with status %s"+httpResponse.getStatusLine().getStatusCode());
 			}else{
 				smokeHTTPResponseDTO.setHeaders(httpResponse.getAllHeaders());
@@ -63,7 +65,7 @@ public class HTTPEngine {
 		
 		try{
 			HttpResponse httpResponse = httpClient.execute(httpPost);
-			if(httpResponse.getStatusLine().getStatusCode() > 199 && httpResponse.getStatusLine().getStatusCode() < 300 ){
+			if(httpResponse.getStatusLine().getStatusCode() <200 && httpResponse.getStatusLine().getStatusCode() > 299 ){
 				LOGGER.log(Level.SEVERE, "post call for "+smokeHttpRequestDTO.getUrl()+" failed with status "+httpResponse.getStatusLine().getStatusCode());
 			}else{
 				smokeHTTPResponseDTO.setHeaders(httpResponse.getAllHeaders());
@@ -80,5 +82,17 @@ public class HTTPEngine {
 			LOGGER.log(Level.SEVERE, "post call for "+smokeHttpRequestDTO.getUrl()+" threw exception");
 		}
 		return smokeHTTPResponseDTO;
+	}
+	
+	public SmokeHttpWrapperDTO[] httpSmokeRunner(SmokeHttpWrapperDTO[] wrapperDTO){
+		for(int i = 0; i<wrapperDTO.length; i++){
+			if(HTTPRequestType.POST.equals(wrapperDTO[i].getSmokeHttpRequestDTO().getHttpRequestType())){
+				wrapperDTO[i].setSmokeHttpResponseDTO(httpPostRequest(wrapperDTO[i].getSmokeHttpRequestDTO()));
+			}
+			if(HTTPRequestType.GET.equals(wrapperDTO[i].getSmokeHttpRequestDTO().getHttpRequestType())){
+				wrapperDTO[i].setSmokeHttpResponseDTO(httpGetRequest(wrapperDTO[i].getSmokeHttpRequestDTO()));
+			}
+		}
+		return wrapperDTO;
 	}
 }

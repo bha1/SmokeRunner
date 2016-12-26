@@ -7,9 +7,9 @@ import java.io.InputStream;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.smoke.dto.SmokeHttpWrapperDTO;
+import com.smoke.service.SmokeHttpRequestBuilder;
 import com.smoke.tools.ExcelSheetTool;
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
 
 /**
  * all the input, output and file streams
@@ -41,8 +41,10 @@ public class StreamMachine {
 		try {
 			ExcelSheetTool excelSheetTool = new ExcelSheetTool();
 			XSSFWorkbook workBook = excelSheetTool.getWorkbookFromInputStream(inputStream);
-			
-			
+			SmokeHttpRequestBuilder smokeHttpRequestBuilder = new SmokeHttpRequestBuilder();
+			SmokeHttpWrapperDTO[] wrapperDTOs = smokeHttpRequestBuilder.prepareForLaunch(workBook);
+			HTTPEngine httpEngine = new HTTPEngine();
+			httpEngine.httpSmokeRunner(wrapperDTOs);
 			tempFile = File.createTempFile("input", "xlsx");
 			tempFile.deleteOnExit();
 			
