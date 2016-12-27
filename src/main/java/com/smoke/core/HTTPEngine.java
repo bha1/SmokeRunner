@@ -38,7 +38,7 @@ public class HTTPEngine {
 		try {
 			HttpResponse httpResponse = httpClient.execute(httpGet);
 			if(httpResponse.getStatusLine().getStatusCode() != 200 ){
-				LOGGER.log(Level.SEVERE, "get call for "+smokeHttpRequestDTO.getUrl()+" failed with status %s"+httpResponse.getStatusLine().getStatusCode());
+				LOGGER.severe("ERROR get call for "+smokeHttpRequestDTO.getUrl()+" failed with status %s"+httpResponse.getStatusLine().getStatusCode());
 			}else{
 				smokeHTTPResponseDTO.setHeaders(httpResponse.getAllHeaders());
 				smokeHTTPResponseDTO.setStatusLine(httpResponse.getStatusLine());
@@ -51,7 +51,7 @@ public class HTTPEngine {
 				smokeHTTPResponseDTO.setResponse(new String(stringBuffer));
 			}
 		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, "get call for "+smokeHttpRequestDTO.getUrl()+" threw exception");
+			LOGGER.severe("ERROR get call for "+smokeHttpRequestDTO.getUrl()+" threw exception");
 			e.printStackTrace();
 		}
 		return smokeHTTPResponseDTO;
@@ -69,7 +69,7 @@ public class HTTPEngine {
 			httpPost.setEntity(new StringEntity(smokeHttpRequestDTO.getRequestPayload()));
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			if(httpResponse.getStatusLine().getStatusCode() != 200 && httpResponse.getStatusLine().getStatusCode() != 201 ){
-				LOGGER.log(Level.SEVERE, "post call for "+smokeHttpRequestDTO.getUrl()+" failed with status "+httpResponse.getStatusLine().getStatusCode());
+				LOGGER.severe( "ERROR post call for "+smokeHttpRequestDTO.getUrl()+" failed with status "+httpResponse.getStatusLine().getStatusCode());
 			}else{
 				smokeHTTPResponseDTO.setHeaders(httpResponse.getAllHeaders());
 				smokeHTTPResponseDTO.setStatusLine(httpResponse.getStatusLine());
@@ -82,7 +82,7 @@ public class HTTPEngine {
 				smokeHTTPResponseDTO.setResponse(new String(stringBuffer));
 			}
 		}catch(IOException e){
-			LOGGER.log(Level.SEVERE, "post call for "+smokeHttpRequestDTO.getUrl()+" threw exception");
+			LOGGER.severe("ERROR post call for "+smokeHttpRequestDTO.getUrl()+" threw exception");
 		}
 		return smokeHTTPResponseDTO;
 	}
