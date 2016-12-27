@@ -48,7 +48,7 @@ public class HTTPEngine {
 				while((responseBody = bufferedReader.readLine())!= null){
 					stringBuffer.append(responseBody);
 				}
-				smokeHTTPResponseDTO.setResponse(responseBody);
+				smokeHTTPResponseDTO.setResponse(new String(stringBuffer));
 			}
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "get call for "+smokeHttpRequestDTO.getUrl()+" threw exception");
@@ -79,7 +79,7 @@ public class HTTPEngine {
 				while((responseBody = bufferedReader.readLine()) != null){
 					stringBuffer.append(responseBody);
 				}
-				smokeHTTPResponseDTO.setResponse(responseBody);
+				smokeHTTPResponseDTO.setResponse(new String(stringBuffer));
 			}
 		}catch(IOException e){
 			LOGGER.log(Level.SEVERE, "post call for "+smokeHttpRequestDTO.getUrl()+" threw exception");

@@ -1,6 +1,9 @@
 package com.smoke.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -43,5 +46,26 @@ public class SmokeHttpRequestBuilder {
 		// TODO will do some thing about this, soon
 		//requestDTO.setHeaders(row.getCell(0).toString());
 		return requestDTO;
-	} 
+	}
+	
+	public Map<String, Object[]> buildRowMap(SmokeHttpWrapperDTO[] wrapperDTOs){
+		Map<String, Object[]> testCase = new TreeMap<>();
+		int wrapperLength = wrapperDTOs.length;
+		for(int i=0;i<wrapperLength;i++){
+			testCase.put(String.valueOf(i+2), buildStringArray(wrapperDTOs[i]));
+		}
+		return testCase;
+	}
+	
+	
+	private Object[] buildStringArray(SmokeHttpWrapperDTO wrapperDTO){
+		List<Object> list = new ArrayList<>();
+		list.add(wrapperDTO.getSmokeHttpRequestDTO().getUrl());
+		list.add(wrapperDTO.getSmokeHttpRequestDTO().getHttpRequestType().toString());
+		list.add(wrapperDTO.getSmokeHttpRequestDTO().getRequestPayload());
+		list.add(wrapperDTO.getSmokeHttpRequestDTO().getHeaders());
+		list.add(String.valueOf(wrapperDTO.getSmokeHttpResponseDTO().getStatusLine().getStatusCode()));
+		list.add(wrapperDTO.getSmokeHttpResponseDTO().getResponse());
+		return list.toArray(new Object[list.size()]);
+	}
 }

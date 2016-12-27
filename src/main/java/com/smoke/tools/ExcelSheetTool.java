@@ -11,6 +11,9 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.smoke.dto.SmokeHttpWrapperDTO;
+import com.smoke.service.SmokeHttpRequestBuilder;
+
 public class ExcelSheetTool {
 
 	public XSSFWorkbook generateTemplateFile(){
@@ -39,12 +42,41 @@ public class ExcelSheetTool {
 	}
 	
 	public XSSFWorkbook getWorkbookFromInputStream(InputStream inputStream){
-		XSSFWorkbook xssfWorkbook = null;
+		XSSFWorkbook xssfWorkbook = null ;
 		try {
 			xssfWorkbook = new XSSFWorkbook(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return xssfWorkbook;
+	}
+	
+	public XSSFWorkbook generateSmokeRunnerResult(SmokeHttpWrapperDTO[] wrapperDTOs){
+		XSSFWorkbook workBook = new XSSFWorkbook();
+		XSSFSheet sheet = workBook.createSheet("smoked");
+		
+		
+		
+		Map<String, Object[]> testCase = new TreeMap<>();
+		testCase.put("1", new Object[]{"URL","TYPE","REQUEST_PAYLOAD","HEADERS","STATUS","RESPONSE_PAYLOAD"});
+		SmokeHttpRequestBuilder builder = new SmokeHttpRequestBuilder();
+		testCase.putAll(builder.buildRowMap(wrapperDTOs));
+		
+		Set<String> keyid = testCase.keySet();
+		int rowid = 0;
+		XSSFRow row;
+		for (String key : keyid)
+	      {
+	         row = sheet.createRow(rowid++);
+	         Object [] objectArr = testCase.get(key);
+	         int cellid = 0;
+	         for (Object obj : objectArr)
+	         {
+	            Cell cell = row.createCell(cellid++);
+	            cell.setCellValue((String)obj);
+	         }
+	      }
+		
+		return workBook;
 	}
 }

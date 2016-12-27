@@ -39,14 +39,16 @@ public class StreamMachine {
 		File tempFile = null;
 		
 		try {
+			tempFile = File.createTempFile("input", "xlsx");
+			tempFile.deleteOnExit();
 			ExcelSheetTool excelSheetTool = new ExcelSheetTool();
 			XSSFWorkbook workBook = excelSheetTool.getWorkbookFromInputStream(inputStream);
 			SmokeHttpRequestBuilder smokeHttpRequestBuilder = new SmokeHttpRequestBuilder();
 			SmokeHttpWrapperDTO[] wrapperDTOs = smokeHttpRequestBuilder.prepareForLaunch(workBook);
 			HTTPEngine httpEngine = new HTTPEngine();
-			httpEngine.httpSmokeRunner(wrapperDTOs);
-			tempFile = File.createTempFile("input", "xlsx");
-			tempFile.deleteOnExit();
+			FileOutputStream out = new FileOutputStream(tempFile);
+			excelSheetTool.generateSmokeRunnerResult(httpEngine.httpSmokeRunner(wrapperDTOs)).write(out);
+			out.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
