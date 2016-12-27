@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.smoke.dto.SmokeHttpResponseDTO;
@@ -36,7 +37,7 @@ public class HTTPEngine {
 		SmokeHttpResponseDTO smokeHTTPResponseDTO = new SmokeHttpResponseDTO();
 		try {
 			HttpResponse httpResponse = httpClient.execute(httpGet);
-			if(httpResponse.getStatusLine().getStatusCode() < 200 && httpResponse.getStatusLine().getStatusCode()  > 299 ){
+			if(httpResponse.getStatusLine().getStatusCode() != 200 ){
 				LOGGER.log(Level.SEVERE, "get call for "+smokeHttpRequestDTO.getUrl()+" failed with status %s"+httpResponse.getStatusLine().getStatusCode());
 			}else{
 				smokeHTTPResponseDTO.setHeaders(httpResponse.getAllHeaders());
@@ -61,11 +62,13 @@ public class HTTPEngine {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(smokeHttpRequestDTO.getUrl());
 		httpPost.addHeader("accept", "application/json");
+		httpPost.addHeader("Content-type", "application/json");
 		SmokeHttpResponseDTO smokeHTTPResponseDTO = new SmokeHttpResponseDTO();
 		
 		try{
+			httpPost.setEntity(new StringEntity(smokeHttpRequestDTO.getRequestPayload()));
 			HttpResponse httpResponse = httpClient.execute(httpPost);
-			if(httpResponse.getStatusLine().getStatusCode() <200 && httpResponse.getStatusLine().getStatusCode() > 299 ){
+			if(httpResponse.getStatusLine().getStatusCode() != 200 && httpResponse.getStatusLine().getStatusCode() != 201 ){
 				LOGGER.log(Level.SEVERE, "post call for "+smokeHttpRequestDTO.getUrl()+" failed with status "+httpResponse.getStatusLine().getStatusCode());
 			}else{
 				smokeHTTPResponseDTO.setHeaders(httpResponse.getAllHeaders());
