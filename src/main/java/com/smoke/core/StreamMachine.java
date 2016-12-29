@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedHashMap;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.smoke.dto.SmokeHttpWrapperDTO;
+import com.smoke.dto.SmokeThreadLocal;
 import com.smoke.service.SmokeHttpRequestBuilder;
 import com.smoke.tools.ExcelSheetTool;
 
@@ -19,6 +21,12 @@ import com.smoke.tools.ExcelSheetTool;
  *
  */
 public class StreamMachine {
+	
+	private ThreadLocal<SmokeThreadLocal> threadLocal;
+	
+	public StreamMachine(){
+		this.threadLocal = new ThreadLocal<>();
+	}
 	
 	public File getTemplateFile(){
 		File tempFile = null;
@@ -41,6 +49,11 @@ public class StreamMachine {
 		try {
 			tempFile = File.createTempFile("input", "xlsx");
 			tempFile.deleteOnExit();
+			SmokeThreadLocal smokeThreadLocal = new SmokeThreadLocal();
+			LinkedHashMap<String, String> threadMap = new LinkedHashMap<>();
+			threadMap.put("somevalue", "someValue");
+			smokeThreadLocal.setThreadMap(threadMap);
+			threadLocal.set(smokeThreadLocal);;
 			ExcelSheetTool excelSheetTool = new ExcelSheetTool();
 			XSSFWorkbook workBook = excelSheetTool.getWorkbookFromInputStream(inputStream);
 			SmokeHttpRequestBuilder smokeHttpRequestBuilder = new SmokeHttpRequestBuilder();

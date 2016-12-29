@@ -3,6 +3,7 @@
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/webapp"/>
+	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
 	<classpathentry kind="var" path="EXT_LIB/jaxrs-ri-2.24.1/jaxrs-ri/api/javax.ws.rs-api-2.0.1.jar"/>
@@ -18,5 +19,6 @@
 	<classpathentry kind="var" path="EXT_LIB/commons-collections4-4.1.jar"/>
 	<classpathentry kind="var" path="EXT_LIB/ooxml-schemas-1.0.jar"/>
 	<classpathentry kind="var" path="EXT_LIB"/>
+	<classpathentry kind="var" path="EXT_LIB/junit-4.12.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

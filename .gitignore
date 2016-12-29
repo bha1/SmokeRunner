@@ -47,4 +47,4 @@ Temporary Items
 .apdisk
 
 # Class files from target
-target/classes/*.class
+*.class

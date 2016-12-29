@@ -1,9 +1,10 @@
 com\smoke\core\HTTPEngine.class
 com\smoke\dto\SmokeHttpRequestDTO.class
 com\smoke\tools\ExcelSheetTool.class
+com\smoke\dto\SmokeThreadLocal.class
 com\webapp\service\request\StringRequest.class
-com\rest\resources\RestReponse.class
 com\webapp\sort\facade\HeapSort.class
+com\rest\resources\RestReponse.class
 com\httpclient\engine\RestClient.class
 com\webapp\xml\HelloWorld.class
 com\webapp\service\response\StringResponse.class

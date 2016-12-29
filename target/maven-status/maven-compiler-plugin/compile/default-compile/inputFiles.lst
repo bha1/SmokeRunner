@@ -11,6 +11,7 @@ D:\workspace\cmd_fire\SmokeRunner\src\main\java\com\webapp\xml\SomeOtherImpl.jav
 D:\workspace\cmd_fire\SmokeRunner\src\main\java\com\webapp\service\request\StringRequest.java
 D:\workspace\cmd_fire\SmokeRunner\src\main\java\com\smoke\core\StreamMachine.java
 D:\workspace\cmd_fire\SmokeRunner\src\main\java\com\webapp\service\response\StringResponse.java
+D:\workspace\cmd_fire\SmokeRunner\src\main\java\com\smoke\dto\SmokeThreadLocal.java
 D:\workspace\cmd_fire\SmokeRunner\src\main\java\com\webapp\rest\IRestClient.java
 D:\workspace\cmd_fire\SmokeRunner\src\main\java\com\webapp\sort\facade\HeapSort.java
 D:\workspace\cmd_fire\SmokeRunner\src\main\java\com\webapp\xml\HelloWorldImpl.java
