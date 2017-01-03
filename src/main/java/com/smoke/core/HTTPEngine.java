@@ -114,7 +114,7 @@ public class HTTPEngine {
 	private void readCookie(Header[] headers){
 		for(int i = 0; i<headers.length ; i++){
 			if("set-cookie".equalsIgnoreCase(headers[i].getName())){
-				threadHeaders.put(headers[i].getName(), headers[i].getValue());
+				threadHeaders.put("Cookie", headers[i].getValue());
 			}
 		}
 	}
