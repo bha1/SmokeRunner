@@ -1,7 +1,5 @@
 package com.test.core;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.logging.Logger;
 
 import org.junit.After;
