@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
@@ -34,6 +36,8 @@ public class HTTPEngine {
 	private HttpClient httpClient;
 	
 	private CookieStore httpCookieStore;
+	
+	private HttpClient httpclient;
 	
 	public HTTPEngine(){
 		httpCookieStore = new BasicCookieStore();
