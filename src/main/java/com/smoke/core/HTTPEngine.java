@@ -3,17 +3,15 @@ package com.smoke.core;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.smoke.dto.SmokeHttpResponseDTO;
@@ -33,17 +31,19 @@ public class HTTPEngine {
 	
 	private static final Logger LOGGER = Logger.getLogger(THIS_COMPONENT_NAME);
 	
-	public ConcurrentHashMap<String,String> threadHeaders;
+	private HttpClient httpClient;
+	
+	private CookieStore httpCookieStore;
 	
 	public HTTPEngine(){
-		threadHeaders = new ConcurrentHashMap<>();
+		httpCookieStore = new BasicCookieStore();
+		HttpClientBuilder builder = HttpClientBuilder.create().setDefaultCookieStore(httpCookieStore);
+		httpClient = builder.build();
 	}
 
 	public SmokeHttpResponseDTO httpGetRequest(SmokeHttpRequestDTO smokeHttpRequestDTO){
-		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpGet httpGet = new HttpGet(smokeHttpRequestDTO.getUrl());
 		httpGet.addHeader("accept","application/json");
-		setCookie(httpGet);
 		SmokeHttpResponseDTO smokeHTTPResponseDTO = new SmokeHttpResponseDTO();
 		try {
 			HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -69,20 +69,16 @@ public class HTTPEngine {
 	
 	
 	public SmokeHttpResponseDTO httpPostRequest(SmokeHttpRequestDTO smokeHttpRequestDTO){
-		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(smokeHttpRequestDTO.getUrl());
 		httpPost.addHeader("accept", "application/json");
 		httpPost.addHeader("Content-type", "application/json");
-		setCookie(httpPost);
 		SmokeHttpResponseDTO smokeHTTPResponseDTO = new SmokeHttpResponseDTO();
-		
 		try{
 			httpPost.setEntity(new StringEntity(smokeHttpRequestDTO.getRequestPayload()));
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			if(httpResponse.getStatusLine().getStatusCode() != 200 && httpResponse.getStatusLine().getStatusCode() != 201 ){
 				LOGGER.severe( "ERROR post call for "+smokeHttpRequestDTO.getUrl()+" failed with status "+httpResponse.getStatusLine().getStatusCode());
 			}else{
-				readCookie(httpResponse.getAllHeaders());
 				smokeHTTPResponseDTO.setHeaders(httpResponse.getAllHeaders());
 				smokeHTTPResponseDTO.setStatusLine(httpResponse.getStatusLine());
 				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
@@ -111,17 +107,4 @@ public class HTTPEngine {
 		return wrapperDTO;
 	}
 	
-	private void readCookie(Header[] headers){
-		for(int i = 0; i<headers.length ; i++){
-			if("set-cookie".equalsIgnoreCase(headers[i].getName())){
-				threadHeaders.put("Cookie", headers[i].getValue());
-			}
-		}
-	}
-	
-	private void setCookie(HttpRequestBase request){
-		for(Map.Entry<String, String> map : threadHeaders.entrySet()){
-			request.addHeader(map.getKey(), map.getValue());
-		}
-	}
 }
